@@ -1,0 +1,24 @@
+@import '@/shared/assets/fonts/pt-root/fonts.css';
+
+:root {
+  --font-base: 'TT Commons', sans-serif;
+  --main-black: #0B1739;
+  --main-white: #FFFFFF;
+  --main-grey: #0B173933;
+  --main-green: #3EB57C;
+  --second-green: #95D0A1;
+  --bg-green: linear-gradient(135deg, rgba(174, 228, 178, 0.3) 0%, rgba(149, 208, 161, 0.3) 100%);
+  --main-shadow: 0px 1px 0px 0px #0000001A;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+body {
+  font-family: var(--font-base);
+  color: var(--main-black);
+}
