@@ -129,6 +129,9 @@ watch(() => filterState.value, (newFilter) => {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
     cursor: pointer;
   }
 }

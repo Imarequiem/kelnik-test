@@ -4,13 +4,17 @@
       {{ title }}
     </h3>
 
-    <div class="slider__values">
-      <span>
-        от {{ localModel[0] }}
+    <div class="slider__values-wrap">
+      <span class="slider__values">
+        от
+
+        <span>{{ formattedLocal[0] }}</span>
       </span>
 
-      <span>
-        до {{ localModel[1] }}
+      <span class="slider__values">
+        до
+
+        <span>{{ formattedLocal[1] }}</span>
       </span>
     </div>
 
@@ -50,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 interface Props {
   title: string
@@ -67,7 +71,6 @@ const props = withDefaults(defineProps<Props>(), {
   activeColor: 'var(--main-green)'
 })
 
-
 const model = defineModel<[number, number]>({ required: true })
 
 const localModel = ref<[number, number]>([...model.value])
@@ -79,6 +82,26 @@ const fixOrder = (): void => {
 
   model.value = [...localModel.value]
 }
+
+const fractionDigits = computed(() => {
+  const s = String(props.step ?? 1)
+  const parts = s.split('.')
+
+  return parts[1]?.length ?? 0
+})
+
+
+const formatter = computed(() => new Intl.NumberFormat('ru-RU', {
+  minimumFractionDigits: fractionDigits.value,
+  maximumFractionDigits: fractionDigits.value,
+}))
+
+const formattedLocal = computed<[string, string]>(() => {
+  const a = formatter.value.format(Number(localModel.value[0] ?? 0))
+  const b = formatter.value.format(Number(localModel.value[1] ?? 0))
+
+  return [a, b]
+})
 
 watch(() => model.value, (val: [number, number]) => {
   localModel.value = [...val]
@@ -93,16 +116,27 @@ watch(() => model.value, (val: [number, number]) => {
   gap: 0.75rem;
 
   &__title {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
   }
 
-  &__values {
+  &__values-wrap {
     display: flex;
     justify-content: space-between;
     font-size: 0.875rem;
     color: var(--main-black);
+  }
+
+  &__values {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--main-grey);
+
+    span {
+      color: var(--main-black);
+    }
   }
 
   &__track {

@@ -87,6 +87,7 @@ onMounted(async () => await apartmentsStore.fetchByFilter(apartmentsStore.filter
 
   &__content {
     width: 100%;
+    min-width: 506px;
     display: flex;
     flex-direction: column;
     gap: 48px;
