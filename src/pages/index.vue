@@ -64,7 +64,7 @@ const {
 
 const canLoadMore = computed<boolean>(
   () => visibleApartments.value.length < filteredSorted.value.length
-  && !isLoading.value
+    && !isLoading.value
 )
 
 const clickLoadMore = () => apartmentsStore.loadMore()

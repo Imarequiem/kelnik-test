@@ -11,32 +11,42 @@ export class ApartmentSorterService extends SorterService<IApartment> {
     direction: sortDirectionType
   ): IApartment[] {
     return [...items].sort((a, b) => {
-      const rawA = (a as SortableApartmentKeys)[key] ?? ''
-      const rawB = (b as SortableApartmentKeys)[key] ?? ''
+      const vA = this.normalizeValue((a as SortableApartmentKeys)[key], key)
+      const vB = this.normalizeValue((b as SortableApartmentKeys)[key], key)
 
-      let vA: number | string
-      let vB: number | string
-
-      if (key === 'price' || key === 'floor') {
-        vA = Number(String(rawA).replace(/[^\d]/g, '')) || 0
-        vB = Number(String(rawB).replace(/[^\d]/g, '')) || 0
-      } else if (key === 'size') {
-        vA = parseFloat(String(rawA).replace(',', '.')) || 0
-        vB = parseFloat(String(rawB).replace(',', '.')) || 0
-      } else {
-        vA = String(rawA)
-        vB = String(rawB)
-      }
-
-      if (typeof vA === 'string' && typeof vB === 'string') {
-        return direction === 'asc'
-          ? vA.localeCompare(vB)
-          : vB.localeCompare(vA)
-      }
-
-      return direction === 'asc'
-        ? (vA as number) - (vB as number)
-        : (vB as number) - (vA as number)
+      return this.compareValues(vA, vB, direction)
     })
+  }
+
+  private normalizeValue(value: unknown, key: sortApartmentsKeyType): number | string {
+    const raw = value ?? ''
+
+    switch (key) {
+      case 'price':
+      case 'floor':
+        return Number(String(raw).replace(/[^\d]/g, '')) || 0
+
+      case 'size':
+        return parseFloat(String(raw).replace(',', '.')) || 0
+
+      default:
+        return String(raw)
+    }
+  }
+
+  private compareValues(
+    a: number | string,
+    b: number | string,
+    direction: sortDirectionType
+  ): number {
+    if (typeof a === 'string' && typeof b === 'string') {
+      return direction === 'asc'
+        ? a.localeCompare(b)
+        : b.localeCompare(a)
+    }
+
+    return direction === 'asc'
+      ? (a as number) - (b as number)
+      : (b as number) - (a as number)
   }
 }

@@ -48,14 +48,19 @@ export const useApartmentsStore = defineStore('apartments', () => {
 
   const setFilter = (f: IApartmentsFilter) => {
     const merged = apartmentMergeFilter(f)
+
     filter.value = merged
+
     filterStorage.set(merged)
+
     visibleCount.value = 5
   }
 
   const resetFilter = () => {
     filterStorage.clear()
+
     filter.value = apartmentMergeFilter()
+
     visibleCount.value = 5
   }
 
