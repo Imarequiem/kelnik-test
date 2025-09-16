@@ -1,4 +1,4 @@
-import type { IApartment } from '@/entities/apartment/types/IApartment'
+import type { IApartment, SortableApartmentKeys } from '@/entities/apartment/types/IApartment'
 import type { sortApartmentsKeyType } from '@/shared/types/sortApartmentsKeyType'
 import type { sortDirectionType } from '@/shared/types/sortDirectionType'
 
@@ -11,8 +11,8 @@ export class ApartmentSorterService extends SorterService<IApartment> {
     direction: sortDirectionType
   ): IApartment[] {
     return [...items].sort((a, b) => {
-      const rawA = (a as any)[key] ?? ''
-      const rawB = (b as any)[key] ?? ''
+      const rawA = (a as SortableApartmentKeys)[key] ?? ''
+      const rawB = (b as SortableApartmentKeys)[key] ?? ''
 
       let vA: number | string
       let vB: number | string

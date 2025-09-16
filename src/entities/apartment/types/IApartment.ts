@@ -1,3 +1,5 @@
+export type SortableApartmentKeys = Pick<IApartment, 'title' | 'size' | 'floor' | 'price' | 'rooms'>
+
 export interface IApartment {
   id: number;
   title: string;
